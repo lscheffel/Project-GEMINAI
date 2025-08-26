@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Gemini App</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-2xl font-bold mb-4">Gemini App</h1>
+        <form method="POST" class="mb-4">
+            <textarea name="prompt" class="w-full p-2 border rounded" placeholder="Digite seu prompt"></textarea>
+            <select name="output_type" class="p-2 border rounded">
+                <option value="text">Texto</option>
+                <option value="image">Imagem</option>
+            </select>
+            <button type="submit" class="bg-blue-500 text-white p-2 rounded">Enviar</button>
+        </form>
+        {% if result %}
+        <div class="border p-4 rounded bg-white">
+            <h2 class="text-xl font-bold">Resultado:</h2>
+            {% if output_type == 'image' and result.startswith('static/images') %}
+                <img src="{{ url_for('static', filename=result[7:]) }}" alt="Imagem gerada" class="max-w-full h-auto">
+            {% else %}
+                <p>{{ result }}</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
